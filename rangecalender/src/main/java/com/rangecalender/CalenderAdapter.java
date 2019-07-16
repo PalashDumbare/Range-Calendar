@@ -4,6 +4,7 @@ package com.rangecalender;
 import android.content.Context;
 
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,8 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHolder> {
@@ -22,32 +24,37 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     private ArrayList<MyCalender>calenders;
     private Context context;
     private  CalenderDayClicked dayClickedListener;
+    private MyCalender fromDate,toDate;
+    private int fromDateSelectedPosition = -1;
     private final String TAG = CalenderAdapter.class.getSimpleName();
 
-    public CalenderAdapter(ArrayList<MyCalender> calenders, CalenderDayClicked dayClickedListener) {
+    public CalenderAdapter(ArrayList<MyCalender> calenders, CalenderDayClicked dayClickedListener, MyCalender fromDate,MyCalender toDate) {
         this.calenders = calenders;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
         this.dayClickedListener = dayClickedListener;
         int s = fixLocation(calenders.get(0));
-        for (int i=0;i<s;i++){
-            calenders.add(i,null);
+        for (int i = 0; i < s; i++) {
+            this.calenders.add(i, null);
         }
 
-        Log.d(TAG,"CHECKING CALENDERS "+calenders);
+
+
     }
 
     public int fixLocation(MyCalender wiseLapCalender){
         if (wiseLapCalender.getDayName().equals("Mon")){
             return 1;
         }else if(wiseLapCalender.getDayName().equals("Tue")){
-           return 2;
+            return 2;
         }else if(wiseLapCalender.getDayName().equals("Wed")){
-           return 3;
+            return 3;
         }else if(wiseLapCalender.getDayName().equals("Thu")){
-           return 4;
+            return 4;
         }else if(wiseLapCalender.getDayName().equals("Fri")){
-           return 5;
+            return 5;
         }else if(wiseLapCalender.getDayName().equals("Sat")){
-          return 6;
+            return 6;
         }
         return 0;
     }
@@ -55,7 +62,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
 
 
-     @Override
+    @Override
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -66,23 +73,69 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
+        Log.d(TAG," jkjkjkjdfdfdf " +calenders.get(position)+"  "+fromDate);
 
         if (calenders.get(position) == null){
             holder.rootLayout.setVisibility(View.GONE);
         } else{
             holder.dateTxt.setText(String.valueOf(calenders.get(position).getDay()));
         }
+        if ( calenders.get(position)!=null &&  fromDate.getDay() == calenders.get(position).getDay() && fromDate.getMonth() == calenders.get(position).getMonth()
+                && fromDate.getYear() == calenders.get(position).getYear()){
+            fromDateSelectedPosition = position;
+            hightLightItem(holder,position);
+        }
+
+        holder.rootLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"dsjfkjd kjfk ");
+                dayClickedListener.onDayClicked(calenders.get(position));
+            }
+        });
+
+
+    }
+
+    private void hightLightItem(ViewHolder holder,int position){
+        if (fromDateSelectedPosition == position){
+            holder.dateTxt.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_blue_light));
+            holder.dateTxt.setTextColor(ContextCompat.getColor(context,android.R.color.white));
+        }else{
+            holder.dateTxt.setBackgroundColor(ContextCompat.getColor(context,android.R.color.white));
+            holder.dateTxt.setTextColor(ContextCompat.getColor(context,android.R.color.black));
+        }
+    }
 
 
 
+    public MyCalender getFromDate(){
+        return fromDate;
+    }
+
+    public void setFromDate(MyCalender fromDate){
+        this.fromDate = fromDate;
+        notifyDataSetChanged();
+    }
+    public void setToDate(MyCalender toDate) {
+        this.toDate = toDate;
+        notifyDataSetChanged();
+    }
+
+    public void swapDate(MyCalender fromDate,MyCalender toDate){
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
         return calenders.size();
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout rootLayout;

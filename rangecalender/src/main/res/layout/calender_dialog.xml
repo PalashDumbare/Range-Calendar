@@ -9,10 +9,64 @@
         android:id="@+id/topbar"
         layout="@layout/toplayout"></include>
 
+    <RelativeLayout
+        android:id="@+id/dateChangeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/topbar"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+          >
+
+        <TextView
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:drawableLeft="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:layout_centerVertical="true"
+            android:onClick="onClick"
+               />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="July"
+            android:textColor="@android:color/black"
+             android:layout_centerHorizontal="true"
+             android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+             android:paddingLeft="15dp"
+            android:paddingTop="8dp"
+            android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:onClick="onClick"
+
+            />
+
+
+    </RelativeLayout>
+
+
+
      <include
          android:id="@+id/daysLayout"
          layout="@layout/days_layout"
-         android:layout_below="@+id/topbar"
+         android:layout_below="@+id/dateChangeLayout"
          android:layout_height="wrap_content"
          android:layout_width="match_parent"></include>
 
@@ -27,13 +81,20 @@
 
     </android.support.v7.widget.RecyclerView>
 
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calenderDates"
+        >
     <TextView
         android:id="@+id/OkBtn"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="Ok"
-        android:layout_below="@+id/calenderDates"
-        android:textColor="@android:color/holo_blue_dark"
+         android:textColor="@android:color/holo_blue_dark"
         android:layout_alignParentRight="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -49,7 +110,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
-        android:layout_below="@+id/calenderDates"
         android:textColor="@android:color/holo_blue_dark"
          android:paddingLeft="20dp"
         android:paddingRight="10dp"
@@ -59,5 +119,6 @@
 
         ></TextView>
 
+    </RelativeLayout>
 
 </RelativeLayout>

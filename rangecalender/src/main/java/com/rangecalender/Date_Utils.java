@@ -59,7 +59,7 @@ public class Date_Utils {
 
 
     public static String getFirstDateOfCurrentMonth(int month,int year){
-
+        Log.d("PALASH","Checking month "+month);
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         Calendar calender = Calendar.getInstance();
         calender.set(Calendar.MONTH, month);
@@ -69,7 +69,8 @@ public class Date_Utils {
     }
 
     public static String getLastDateOfCurrentMonth(int month,int year) {
-         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        Log.d("PALASH","Checking month last "+month);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 
         Calendar calender = Calendar.getInstance();
         try {
@@ -109,7 +110,7 @@ public class Date_Utils {
             }else if(dayOfWeek == 7){
                 dayName = "Sat";
             }
-            MyCalender calender = new MyCalender(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH),calendar.get(Calendar.YEAR),dayName);
+            MyCalender calender = new MyCalender(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.YEAR),dayName);
             dates.add(calender);
             calendar.add(Calendar.DATE, 1);
             Log.d("PALASHJ","CHECKING DATES "+dates);

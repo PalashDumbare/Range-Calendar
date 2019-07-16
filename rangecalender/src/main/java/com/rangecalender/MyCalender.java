@@ -1,5 +1,9 @@
 package com.rangecalender;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MyCalender {
     private int day;
     private int month;
@@ -48,6 +52,10 @@ public class MyCalender {
 
     public void setDayName(String dayName) {
         this.dayName = dayName;
+    }
+
+    public Date getDate() throws ParseException {
+        return  new SimpleDateFormat("dd-MM-yyyy").parse(Date_Utils.addPrefixBeforeDateNumber(day)+"-"+Date_Utils.addPrefixBeforeDateNumber(month)+"-"+year);
     }
 
     @Override
