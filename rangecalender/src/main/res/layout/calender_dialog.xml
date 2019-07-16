@@ -16,7 +16,7 @@
          android:layout_height="wrap_content"
          android:layout_width="match_parent"></include>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/calenderDates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/OkBtn"
