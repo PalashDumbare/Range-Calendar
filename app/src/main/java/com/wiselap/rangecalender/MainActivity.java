@@ -4,16 +4,29 @@ package com.wiselap.rangecalender;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
+import com.rangecalender.OnDateSelected;
 import com.rangecalender.RangeCalender;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    private TextView text;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RangeCalender rangeCalender = new RangeCalender(this);
+        setContentView(R.layout.activity_main);
+        text = findViewById(R.id.text);
+          RangeCalender rangeCalender = new RangeCalender(this, new OnDateSelected() {
+            @Override
+            public void dateSelectedIs(Date fromDate, Date toDate) {
+                text.setText(new SimpleDateFormat("dd-MMM-yyyy").format(fromDate)+" - "+new SimpleDateFormat("dd-MMM-yyyy").format(toDate));
+            }
+        });
         rangeCalender.show();
     }
 }

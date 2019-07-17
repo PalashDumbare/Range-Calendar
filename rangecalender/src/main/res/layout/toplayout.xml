@@ -9,6 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
+        <LinearLayout
+            android:id="@+id/openYearPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageView
+             android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_menu_24dp"
+            android:layout_marginTop="10dp"></ImageView>
 
         <TextView
             android:id="@+id/fromDateYear"
@@ -20,7 +29,9 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            />
+            android:layout_toRightOf="@+id/openYearPicker"
+             />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/toDateYear"
@@ -33,6 +44,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             />
 
 
@@ -47,10 +59,10 @@
             android:id="@+id/fromDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mon, Jul 15"
+            android:text="From Date"
             android:paddingLeft="10dp"
             android:textColor="@android:color/white"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:layout_weight="1"
             >
 
@@ -71,12 +83,11 @@
             android:layout_height="wrap_content"
             android:text="To Date"
              android:textColor="@android:color/white"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:layout_weight="1"
             android:gravity="right"
             android:paddingRight="10dp"
-            android:textStyle="italic"
-            >
+             >
 
         </TextView>
 

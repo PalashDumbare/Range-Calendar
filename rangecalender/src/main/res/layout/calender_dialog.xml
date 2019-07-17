@@ -9,6 +9,28 @@
         android:id="@+id/topbar"
         layout="@layout/toplayout"></include>
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/yearPickerLayout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:layout_below="@+id/topbar"
+         android:elevation="10dp"
+        android:layout_above="@+id/btnLayout"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/yearPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
     <RelativeLayout
         android:id="@+id/dateChangeLayout"
         android:layout_width="match_parent"
@@ -84,10 +106,12 @@
 
 
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/btnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/calenderDates"
+        android:weightSum="2"
         >
     <TextView
         android:id="@+id/OkBtn"
@@ -103,6 +127,7 @@
         android:gravity="center"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_weight="1"
         ></TextView>
 
     <TextView
@@ -116,9 +141,10 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:layout_toLeftOf="@+id/OkBtn"
-
+android:layout_weight="1"
+        android:gravity="center"
         ></TextView>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

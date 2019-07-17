@@ -2,10 +2,14 @@ package com.rangecalender;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,77 +23,124 @@ import java.util.Date;
 
 public class CalenderDialog extends Dialog implements CalenderDayClicked, View.OnClickListener {
 
-    private RecyclerView dateList;
-    private TextView monthYear,previous,next;
+    private RecyclerView dateList,yearList;
+    private LinearLayout topBar;
+    private CardView yearPickerLayout;
+    private TextView monthYear,previous,next,ok,cancel,fromDateYearTxt,toDateYearTxt,fromDateTxt,toDateTxt;
     private Calendar calendar;
     private Context context;
     private int month,year;
     private CalenderAdapter calenderAdapter;
-    private ArrayList<MyCalender>myCalenderArrayList;
-    MyCalender myCalender;
+    private OnDateSelected onDateSelected;
+    private LinearLayout openYearPicker;
+    ArrayList<String>years;
+    YearAdapter yearAdapter;
+    private LinearLayoutManager yearLinearLayoutManager;
     private final String TAG = CalenderDialog.class.getSimpleName();
 
-    public CalenderDialog( Context context) {
+
+    public CalenderDialog(Context context,OnDateSelected onDateSelected) {
         super(context,android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
         this.context = context;
+        this.onDateSelected = onDateSelected;
         setContentView(R.layout.calender_dialog);
         init();
         events();
+        setUpCalender();
+        setOnUI();
+        generateCalender();
         show();
+    }
+
+    private void setUpCalender() {
+        calendar = Calendar.getInstance();
+        month = calendar.get(Calendar.MONTH)+1;
+        year = calendar.get(Calendar.YEAR);
+
+        yearAdapter = new YearAdapter(years, String.valueOf(year), new YearPicker() {
+            @Override
+            public void onYearSelected(int year) {
+                yearPickerLayout.setVisibility(View.GONE);
+                
+            }
+        });
+        yearList.setAdapter(yearAdapter);
+
+
     }
 
     private void events() {
         previous.setOnClickListener(this);
         next.setOnClickListener(this);
+        ok.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        openYearPicker.setOnClickListener(this);
+
     }
 
     private void init() {
         previous = findViewById(R.id.previous);
         next = findViewById(R.id.next);
+        ok = findViewById(R.id.OkBtn);
+        cancel = findViewById(R.id.cancelBtn);
         dateList = findViewById(R.id.calenderDates);
         monthYear = findViewById(R.id.date);
+        topBar = findViewById(R.id.topbar);
+        fromDateYearTxt = findViewById(R.id.fromDateYear);
+        toDateYearTxt = findViewById(R.id.toDateYear);
+        fromDateTxt = findViewById(R.id.fromDate);
+        toDateTxt = findViewById(R.id.toDate);
+        yearList = findViewById(R.id.yearPicker);
+        yearPickerLayout = findViewById(R.id.yearPickerLayout);
+        openYearPicker = findViewById(R.id.openYearPicker);
         dateList.setLayoutManager(new GridLayoutManager(context,7));
-         calendar = Calendar.getInstance();
-        month = calendar.get(Calendar.MONTH);
-        year = calendar.get(Calendar.YEAR);
-         myCalender = new MyCalender();
-        myCalender.setDay(calendar.get(Calendar.DAY_OF_MONTH));
-        myCalender.setMonth(calendar.get(Calendar.MONTH));
-        myCalender.setYear(calendar.get(Calendar.YEAR));
-         setOnUI();
-        generateCalender();
+        yearLinearLayoutManager = new LinearLayoutManager(context);
+        yearList.setLayoutManager(yearLinearLayoutManager);
+
+        years = new ArrayList<>();
+        for (int i =1900 ;i <= 2100  ;i++){
+            years.add(i+"");
+        }
+
+
     }
 
     private void generateCalender(){
         try {
-
             String fromDateStr = Date_Utils.getFirstDateOfCurrentMonth(month-1,year);
             String toDateStr = Date_Utils.getLastDateOfCurrentMonth(month,year);
             Date fromDate = new SimpleDateFormat("dd-MMM-yyyy").parse(fromDateStr);
             Date toDate = new SimpleDateFormat("dd-MMM-yyyy").parse(toDateStr);
-
-
-           calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate,toDate), this, myCalender,myCalender);
-            dateList.setAdapter(calenderAdapter);
-
-
-
+            if (calenderAdapter!=null){
+                if(calenderAdapter.getFromDate() != null && calenderAdapter.getToDate() !=null){
+                    calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this, calenderAdapter.getFromDate(), calenderAdapter.getToDate());
+                    dateList.setAdapter(calenderAdapter);
+                }else if (calenderAdapter.getFromDate() != null) {
+                    calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this, calenderAdapter.getFromDate(), null);
+                    dateList.setAdapter(calenderAdapter);
+                }
+            }else {
+                calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this);
+                dateList.setAdapter(calenderAdapter);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onDayClicked(MyCalender calender) {
-        MyCalender fromDateAsPerAdapter = calenderAdapter.getFromDate();
-        try {
-             if (calender.getDate().before(fromDateAsPerAdapter.getDate())){
-                 calenderAdapter.swapDate(calender,fromDateAsPerAdapter);
-
-             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+    public void onDayClicked( ) {
+        MyCalender fromDate = calenderAdapter.getFromDate();
+        MyCalender toDate = calenderAdapter.getToDate();
+        fromDateYearTxt.setText(String.valueOf(fromDate.getYear()));
+        fromDateTxt.setText(Date_Utils.addPrefixBeforeDateNumber(fromDate.getDay())+" "+new DateFormatSymbols().getMonths()[fromDate.getMonth()-1]+" "+fromDate.getYear());
+        if (toDate !=null) {
+            toDateYearTxt.setText(String.valueOf(toDate.getYear()));
+            toDateTxt.setText(Date_Utils.addPrefixBeforeDateNumber(toDate.getDay())+" "+new DateFormatSymbols().getMonths()[toDate.getMonth()-1]+" "+toDate.getYear());
+        }else{
+            toDateTxt.setText("To Date");
         }
+
 
     }
 
@@ -109,6 +160,25 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
            goToNextMonth();
        }else if(v.getId() == R.id.previous){
            goToPreviousMonth();
+       }else if(v.getId() == R.id.OkBtn){
+           try {
+               if (calenderAdapter.getFromDate() != null && calenderAdapter.getToDate() != null) {
+                   onDateSelected.dateSelectedIs(calenderAdapter.getFromDate().getDate(), calenderAdapter.getToDate().getDate());
+               }
+               cancel();
+           } catch (ParseException e) {
+               Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+               e.printStackTrace();
+           }
+       }else if(v.getId() == R.id.openYearPicker){
+           yearPickerLayout.setVisibility(View.VISIBLE);
+           yearPickerLayout.bringToFront();
+
+           yearList.scrollToPosition(yearAdapter.getItemCount()-1);
+           Log.d(TAG,"sdf fjdkljfk "+yearAdapter.getYearposition());
+            yearList.scrollToPosition(years.indexOf(year+""));
+        }else{
+           cancel();
        }
     }
 
