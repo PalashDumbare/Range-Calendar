@@ -99,14 +99,13 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
                 && fromDate.getMonth() == calenders.get(position).getMonth()
                 && fromDate.getYear() == calenders.get(position).getYear()){
             fromDateSelectedPosition = position;
-            hightLightItem(holder,position);
-        }
+         }
         if ( calenders.get(position)!=null && toDate != null &&  toDate.getDay() == calenders.get(position).getDay() && toDate.getMonth() == calenders.get(position).getMonth()
                 && toDate.getYear() == calenders.get(position).getYear()){
             toDateSelectedPosition = position;
-            hightLightItem(holder,position);
-        }
 
+        }
+        hightLightItem(holder,position);
 
         if (fromDate != null && toDate != null){
             if (calenders.get(position) !=null){
@@ -173,7 +172,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
 
     private void hightLightItem(ViewHolder holder,int position){
-        if (fromDateSelectedPosition == position || toDateSelectedPosition == position){
+        Log.d(TAG,"CHECKING FROMD DATE "+fromDateSelectedPosition +" "+toDateSelectedPosition);
+         if (fromDateSelectedPosition == position || toDateSelectedPosition == position){
             holder.dateTxt.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_blue_dark));
             holder.dateTxt.setTextColor(ContextCompat.getColor(context,android.R.color.white));
         }else{
