@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class CalenderDialog extends Dialog implements CalenderDayClicked, View.OnClickListener, YearPicker {
-
+    /**/
     private RecyclerView dateList,yearList;
     private LinearLayout topBar;
     private CardView yearPickerLayout;
