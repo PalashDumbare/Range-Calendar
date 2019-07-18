@@ -130,6 +130,9 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
                 }else if (calenderAdapter.getFromDate() != null) {
                     calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this, calenderAdapter.getFromDate(), null);
                     dateList.setAdapter(calenderAdapter);
+                }else{
+                    calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this, null, null);
+                    dateList.setAdapter(calenderAdapter);
                 }
             }else {
                 calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this);
