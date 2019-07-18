@@ -14,11 +14,8 @@ allprojects {
   	        implementation 'com.github.PalashDumbare:RangeCalender:Tag'
  	}
   
-  
-   new RangeCalender(this, new OnDateSelected() {
-   
-            @Override
+   new RangeCalender(this, new OnDateSelected()  --
+  	  @Override
             public void dateSelectedIs(Date fromDate, Date toDate) {
-
             }
         }).show();
