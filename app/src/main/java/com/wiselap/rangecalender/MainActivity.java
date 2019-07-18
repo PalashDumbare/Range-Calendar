@@ -6,11 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.rangecalender.OnDateSelected;
+import com.rangecalender.interfaces.OnDateSelected;
 import com.rangecalender.RangeCalender;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 

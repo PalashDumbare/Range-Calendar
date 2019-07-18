@@ -1,4 +1,6 @@
-package com.rangecalender;
+package com.rangecalender.model;
+
+import com.rangecalender.utils.Date_Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

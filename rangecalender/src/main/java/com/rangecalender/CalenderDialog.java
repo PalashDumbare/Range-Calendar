@@ -8,11 +8,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.rangecalender.adapter.CalenderAdapter;
+import com.rangecalender.adapter.YearAdapter;
+import com.rangecalender.interfaces.CalenderDayClicked;
+import com.rangecalender.interfaces.OnDateSelected;
+import com.rangecalender.interfaces.YearPicker;
+import com.rangecalender.model.MyCalender;
+import com.rangecalender.utils.Date_Utils;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -21,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CalenderDialog extends Dialog implements CalenderDayClicked, View.OnClickListener,YearPicker {
+public class CalenderDialog extends Dialog implements CalenderDayClicked, View.OnClickListener, YearPicker {
 
     private RecyclerView dateList,yearList;
     private LinearLayout topBar;

@@ -1,6 +1,8 @@
-package com.rangecalender;
+package com.rangecalender.utils;
 
 import android.util.Log;
+
+import com.rangecalender.model.MyCalender;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

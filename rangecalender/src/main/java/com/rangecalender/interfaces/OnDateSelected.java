@@ -1,4 +1,4 @@
-package com.rangecalender;
+package com.rangecalender.interfaces;
 
 import java.util.Date;
 

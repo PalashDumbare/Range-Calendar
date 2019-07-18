@@ -1,4 +1,4 @@
-package com.rangecalender;
+package com.rangecalender.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.rangecalender.R;
+import com.rangecalender.interfaces.YearPicker;
 
-import java.time.Year;
 import java.util.ArrayList;
 
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {

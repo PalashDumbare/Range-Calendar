@@ -1,4 +1,4 @@
-package com.rangecalender;
+package com.rangecalender.adapter;
 
 
 import android.content.Context;
@@ -14,8 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.rangecalender.model.MyCalender;
+import com.rangecalender.R;
+import com.rangecalender.interfaces.CalenderDayClicked;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 
@@ -23,7 +26,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
     private ArrayList<MyCalender>calenders;
     private Context context;
-    private  CalenderDayClicked dayClickedListener;
+    private CalenderDayClicked dayClickedListener;
     private MyCalender fromDate,toDate;
     private int fromDateSelectedPosition = -1,toDateSelectedPosition = -1;
     private final String TAG = CalenderAdapter.class.getSimpleName();

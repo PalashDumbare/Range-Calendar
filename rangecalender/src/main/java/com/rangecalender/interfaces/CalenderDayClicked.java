@@ -1,4 +1,4 @@
-package com.rangecalender;
+package com.rangecalender.interfaces;
 
 
 public interface CalenderDayClicked {
