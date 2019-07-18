@@ -13,7 +13,8 @@ allprojects {
 	}
   
   dependencies {
-  	        implementation 'com.github.PalashDumbare:RangeCalender:Tag'
+  	               implementation 'com.github.PalashDumbare:RangeCalender:v0.0.10'
+
  	}
   
    new RangeCalender(this, new OnDateSelected()  
