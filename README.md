@@ -7,12 +7,18 @@ allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
-		}
+	        }
 	}
   
   dependencies {
-	        implementation 'com.github.PalashDumbare:RangeCalender:Tag'
-	}
+  	        implementation 'com.github.PalashDumbare:RangeCalender:Tag'
+ 	}
   
   
-  
+   new RangeCalender(this, new OnDateSelected() {
+   
+            @Override
+            public void dateSelectedIs(Date fromDate, Date toDate) {
+
+            }
+        }).show();
