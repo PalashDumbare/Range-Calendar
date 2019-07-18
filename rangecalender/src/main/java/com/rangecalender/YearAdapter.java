@@ -26,6 +26,11 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
         this.yearPicker = yearPicker;
     }
 
+    public void setSelectedYear(String selectedYear) {
+        this.selectedYear = selectedYear;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

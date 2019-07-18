@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CalenderDialog extends Dialog implements CalenderDayClicked, View.OnClickListener {
+public class CalenderDialog extends Dialog implements CalenderDayClicked, View.OnClickListener,YearPicker {
 
     private RecyclerView dateList,yearList;
     private LinearLayout topBar;
@@ -29,7 +29,7 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
     private TextView monthYear,previous,next,ok,cancel,fromDateYearTxt,toDateYearTxt,fromDateTxt,toDateTxt;
     private Calendar calendar;
     private Context context;
-    private int month,year;
+    public int month,year;
     private CalenderAdapter calenderAdapter;
     private OnDateSelected onDateSelected;
     private LinearLayout openYearPicker;
@@ -57,15 +57,20 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
         month = calendar.get(Calendar.MONTH)+1;
         year = calendar.get(Calendar.YEAR);
 
-        yearAdapter = new YearAdapter(years, String.valueOf(year), new YearPicker() {
-            @Override
-            public void onYearSelected(int year) {
-                yearPickerLayout.setVisibility(View.GONE);
-                
-            }
-        });
+        yearAdapter = new YearAdapter(years, String.valueOf(year),this);
         yearList.setAdapter(yearAdapter);
 
+
+    }
+
+    @Override
+    public void onYearSelected(int year) {
+        this.year = year;
+        fromDateYearTxt.setText(String.valueOf(year));
+        generateCalender();
+        yearPickerLayout.setVisibility(View.GONE);
+        yearAdapter.setSelectedYear(String.valueOf(year));
+        setOnUI();
 
     }
 
