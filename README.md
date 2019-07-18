@@ -4,7 +4,7 @@ Library to show Calender which takes from Date and To date. Useful while generat
 
 Steps to integrate:
 
-'''
+
 allprojects {
 		repositories {
 			...
@@ -21,6 +21,6 @@ allprojects {
             public void dateSelectedIs(Date fromDate, Date toDate) {
             }
         }).show();
-'''
+
 
 ![Image of Yaktocat](https://github.com/PalashDumbare/RangeCalender/blob/master/device-2019-07-18-164401.png)
