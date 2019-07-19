@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +45,7 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
     ArrayList<String>years;
     YearAdapter yearAdapter;
     private LinearLayoutManager yearLinearLayoutManager;
+    private Animation anim;
     private final String TAG = CalenderDialog.class.getSimpleName();
 
 
@@ -109,6 +112,12 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
         yearLinearLayoutManager = new LinearLayoutManager(context);
         yearList.setLayoutManager(yearLinearLayoutManager);
 
+        anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(50);
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+
         years = new ArrayList<>();
         for (int i =1900 ;i <= 2100  ;i++){
             years.add(i+"");
@@ -150,6 +159,7 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
         fromDateYearTxt.setText(String.valueOf(fromDate.getYear()));
         fromDateTxt.setText(Date_Utils.addPrefixBeforeDateNumber(fromDate.getDay())+" "+new DateFormatSymbols().getMonths()[fromDate.getMonth()-1]+" "+fromDate.getYear());
         if (toDate !=null) {
+            stopAnimation();
             toDateYearTxt.setText(String.valueOf(toDate.getYear()));
             toDateTxt.setText(Date_Utils.addPrefixBeforeDateNumber(toDate.getDay())+" "+new DateFormatSymbols().getMonths()[toDate.getMonth()-1]+" "+toDate.getYear());
         }else{
@@ -160,13 +170,15 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
     }
 
 
-    public void setFromDate(Date fromDate){
-        MyCalender myCalender = new MyCalender();
-        myCalender.setDay(fromDate.getDay());
-        myCalender.setMonth(fromDate.getMonth());
-        myCalender.setYear(fromDate.getYear());
-        calenderAdapter.setFromDate(myCalender);
+    public void startAnimation(){
+        toDateTxt.startAnimation(anim);
     }
+
+    public void stopAnimation(){
+         anim.cancel();
+    }
+
+
 
 
     @Override
@@ -179,8 +191,13 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
            try {
                if (calenderAdapter.getFromDate() != null && calenderAdapter.getToDate() != null) {
                    onDateSelected.dateSelectedIs(calenderAdapter.getFromDate().getDate(), calenderAdapter.getToDate().getDate());
+                   cancel();
+               }else if(calenderAdapter.getFromDate()!=null && calenderAdapter.getToDate() == null){
+                   startAnimation();
+               }else {
+                   cancel();
                }
-               cancel();
+
            } catch (ParseException e) {
                Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
                e.printStackTrace();
@@ -190,8 +207,7 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
            yearPickerLayout.bringToFront();
 
            yearList.scrollToPosition(yearAdapter.getItemCount()-1);
-           Log.d(TAG,"sdf fjdkljfk "+yearAdapter.getYearposition());
-            yearList.scrollToPosition(years.indexOf(year+""));
+             yearList.scrollToPosition(years.indexOf(year+""));
         }else{
            cancel();
        }
@@ -219,6 +235,7 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
 
 
     private void setOnUI(){
+
          monthYear.setText(new DateFormatSymbols().getMonths()[month-1]+" "+year);
          generateCalender();
     }
