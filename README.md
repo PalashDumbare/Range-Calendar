@@ -15,7 +15,7 @@ allprojects {
 	 
   ```
   dependencies {
-        implementation 'com.github.PalashDumbare:RangeCalender:0.0.11'
+        implementation 'com.github.PalashDumbare:RangeCalender:v1.0'
   }
 ```
 ```
