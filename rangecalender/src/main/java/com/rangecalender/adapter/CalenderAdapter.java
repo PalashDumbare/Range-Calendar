@@ -29,6 +29,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     private CalenderDayClicked dayClickedListener;
     private MyCalender fromDate,toDate;
     private int fromDateSelectedPosition = -1,toDateSelectedPosition = -1;
+    private int color ;
     private final String TAG = CalenderAdapter.class.getSimpleName();
 
     public CalenderAdapter(ArrayList<MyCalender> calenders, CalenderDayClicked dayClickedListener) {
@@ -49,7 +50,11 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         for (int i = 0; i < s; i++) {
             this.calenders.add(i, null);
         }
-        Log.d(TAG,"OPOPOPO "+fromDate +"         "+toDate);
+     }
+
+
+    public void setColor(int color){
+        this.color = color;
     }
 
 
@@ -174,7 +179,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     private void hightLightItem(ViewHolder holder,int position){
         Log.d(TAG,"CHECKING FROMD DATE "+fromDateSelectedPosition +" "+toDateSelectedPosition);
          if (fromDateSelectedPosition == position || toDateSelectedPosition == position){
-            holder.dateTxt.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_blue_dark));
+            holder.dateTxt.setBackgroundColor(ContextCompat.getColor(context,color));
             holder.dateTxt.setTextColor(ContextCompat.getColor(context,android.R.color.white));
         }else{
             holder.dateTxt.setBackgroundColor(ContextCompat.getColor(context,android.R.color.white));

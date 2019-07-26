@@ -2,6 +2,7 @@ package com.rangecalender;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +34,7 @@ import java.util.Date;
 public class CalenderDialog extends Dialog implements CalenderDayClicked, View.OnClickListener, YearPicker {
     /**/
     private RecyclerView dateList,yearList;
-    private LinearLayout topBar;
+    private LinearLayout topBarLayout,topBarMainLayout;
     private CardView yearPickerLayout;
     private TextView monthYear,previous,next,ok,cancel,fromDateYearTxt,toDateYearTxt,fromDateTxt,toDateTxt;
     private Calendar calendar;
@@ -46,13 +47,15 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
     YearAdapter yearAdapter;
     private LinearLayoutManager yearLinearLayoutManager;
     private Animation anim;
+    private int color;
     private final String TAG = CalenderDialog.class.getSimpleName();
 
 
-    public CalenderDialog(Context context,OnDateSelected onDateSelected) {
+    public CalenderDialog(Context context, int color, OnDateSelected onDateSelected) {
         super(context,android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
         this.context = context;
         this.onDateSelected = onDateSelected;
+        this.color = color;
         setContentView(R.layout.calender_dialog);
         init();
         events();
@@ -94,13 +97,14 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
     }
 
     private void init() {
+
         previous = findViewById(R.id.previous);
         next = findViewById(R.id.next);
         ok = findViewById(R.id.OkBtn);
         cancel = findViewById(R.id.cancelBtn);
         dateList = findViewById(R.id.calenderDates);
         monthYear = findViewById(R.id.date);
-        topBar = findViewById(R.id.topbar);
+        topBarLayout = findViewById(R.id.topbarLayout);
         fromDateYearTxt = findViewById(R.id.fromDateYear);
         toDateYearTxt = findViewById(R.id.toDateYear);
         fromDateTxt = findViewById(R.id.fromDate);
@@ -108,6 +112,7 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
         yearList = findViewById(R.id.yearPicker);
         yearPickerLayout = findViewById(R.id.yearPickerLayout);
         openYearPicker = findViewById(R.id.openYearPicker);
+
         dateList.setLayoutManager(new GridLayoutManager(context,7));
         yearLinearLayoutManager = new LinearLayoutManager(context);
         yearList.setLayoutManager(yearLinearLayoutManager);
@@ -117,6 +122,10 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
         anim.setStartOffset(20);
         anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(Animation.INFINITE);
+
+        topBarLayout.setBackgroundColor(ContextCompat.getColor(context,color));
+        ok.setTextColor(ContextCompat.getColor(context,color));
+        cancel.setTextColor(ContextCompat.getColor(context,color));
 
         years = new ArrayList<>();
         for (int i =1900 ;i <= 2100  ;i++){
@@ -135,16 +144,20 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
             if (calenderAdapter!=null){
                 if(calenderAdapter.getFromDate() != null && calenderAdapter.getToDate() !=null){
                     calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this, calenderAdapter.getFromDate(), calenderAdapter.getToDate());
+                    calenderAdapter.setColor(color);
                     dateList.setAdapter(calenderAdapter);
                 }else if (calenderAdapter.getFromDate() != null) {
                     calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this, calenderAdapter.getFromDate(), null);
+                    calenderAdapter.setColor(color);
                     dateList.setAdapter(calenderAdapter);
                 }else{
                     calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this, null, null);
+                    calenderAdapter.setColor(color);
                     dateList.setAdapter(calenderAdapter);
                 }
             }else {
                 calenderAdapter = new CalenderAdapter(Date_Utils.getDaysBetweenDates(fromDate, toDate), this);
+                calenderAdapter.setColor(color);
                 dateList.setAdapter(calenderAdapter);
             }
         }catch (Exception e){
