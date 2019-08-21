@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                         text.setText(new SimpleDateFormat("dd-MMM-yyyy").format(fromDate)+" - "+new SimpleDateFormat("dd-MMM-yyyy").format(toDate));
                     }
                 });
+                rangeCalender.setSetSameDateAsFromDateIfToDateNotSelected(false);
                 rangeCalender.show();
             }
         });

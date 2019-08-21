@@ -32,25 +32,24 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     private int color ;
     private final String TAG = CalenderAdapter.class.getSimpleName();
 
-    public CalenderAdapter(ArrayList<MyCalender> calenders, CalenderDayClicked dayClickedListener) {
-        this.calenders = calenders;
+
+    public CalenderAdapter(CalenderDayClicked dayClickedListener) {
         this.dayClickedListener = dayClickedListener;
-        int s = fixLocation(calenders.get(0));
-        for (int i = 0; i < s; i++) {
-            this.calenders.add(i, null);
-        }
     }
 
-    public CalenderAdapter(ArrayList<MyCalender> calenders, CalenderDayClicked dayClickedListener,MyCalender fromDate,MyCalender toDate) {
+
+    public void setCalenders(ArrayList<MyCalender> calenders,MyCalender fromDate,MyCalender toDate) {
         this.calenders = calenders;
-        this.fromDate = fromDate;
         this.toDate = toDate;
-        this.dayClickedListener = dayClickedListener;
+        this.fromDate = fromDate;
         int s = fixLocation(calenders.get(0));
         for (int i = 0; i < s; i++) {
             this.calenders.add(i, null);
         }
-     }
+        notifyDataSetChanged();
+    }
+
+
 
 
     public void setColor(int color){
@@ -127,13 +126,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
             }
         }
 
-//        if (toDateSelectedPosition != -1 && fromDateSelectedPosition != -1){
-//            if (toDateSelectedPosition != position && fromDateSelectedPosition!=position){
-//                if (position < toDateSelectedPosition && position >fromDateSelectedPosition){
-//
-//                }
-//            }
-//        }
+
 
         holder.rootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,8 +134,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
                 if (fromDate == null && toDate == null){
                     fromDateSelectedPosition = position;
                     fromDate = calenders.get(position);
-                    Log.d(TAG,"IN CALENDER FIRST");
-                }else if(fromDate != null && toDate ==null){
+                 }else if(fromDate != null && toDate ==null){
                     toDate = calenders.get(position);
                     try {
                         if (fromDate.getDate().after(toDate.getDate())) {
@@ -157,9 +149,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
                         e.printStackTrace();
                     }
 
-                    Log.d(TAG,"IN CALENDER Second");
-                } else if(fromDate !=null && toDate!=null){
-                    Log.d(TAG,"IN CALENDER THIRD");
+                 } else if(fromDate !=null && toDate!=null){
                         fromDateSelectedPosition = position;
                         fromDate = calenders.get(position);
                         toDate = null;
@@ -177,8 +167,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
 
 
     private void hightLightItem(ViewHolder holder,int position){
-        Log.d(TAG,"CHECKING FROMD DATE "+fromDateSelectedPosition +" "+toDateSelectedPosition);
-         if (fromDateSelectedPosition == position || toDateSelectedPosition == position){
+          if (fromDateSelectedPosition == position || toDateSelectedPosition == position){
             holder.dateTxt.setBackgroundColor(ContextCompat.getColor(context,color));
             holder.dateTxt.setTextColor(ContextCompat.getColor(context,android.R.color.white));
         }else{
