@@ -46,6 +46,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         for (int i = 0; i < s; i++) {
             this.calenders.add(i, null);
         }
+        fromDateSelectedPosition = -1;
+        toDateSelectedPosition = -1;
         notifyDataSetChanged();
     }
 
