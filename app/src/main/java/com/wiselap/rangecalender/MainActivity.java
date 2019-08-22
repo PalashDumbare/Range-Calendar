@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.rangecalender.interfaces.OnDateSelected;
 import com.rangecalender.RangeCalender;
-
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 rangeCalender.setSetSameDateAsFromDateIfToDateNotSelected(false);
-                rangeCalender.show();
+               rangeCalender.show();
             }
         });
 

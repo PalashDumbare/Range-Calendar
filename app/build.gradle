@@ -22,7 +22,6 @@ android {
 dependencies {
 
     def supportVersion = "28.0.0"
-
     def constraintLayoutVersion = "1.1.0"
 
 

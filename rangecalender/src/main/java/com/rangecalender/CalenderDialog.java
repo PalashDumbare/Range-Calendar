@@ -54,6 +54,7 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
     private Animation anim;
     private int color,width;
     private boolean setSameDateAsFromDateIfToDateNotSelected;
+    private Date fromDate,toDate;
     private final String TAG = CalenderDialog.class.getSimpleName();
 
 
@@ -72,10 +73,36 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
         show();
     }
 
+    public CalenderDialog(Context context, int color,Date fromDate,Date toDate ,boolean setSameDateAsFromDateIfToDateNotSelected, OnDateSelected onDateSelected) {
+        super(context,android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+        this.context = context;
+        this.onDateSelected = onDateSelected;
+        this.color = color;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+
+
+        this.setSameDateAsFromDateIfToDateNotSelected = setSameDateAsFromDateIfToDateNotSelected;
+        setContentView(R.layout.calender_dialog);
+        init();
+        events();
+        setUpCalender();
+        setOnUI();
+        generateCalender();
+        show();
+    }
+
     private void setUpCalender() {
         calendar = Calendar.getInstance();
-        month = calendar.get(Calendar.MONTH)+1;
-        year = calendar.get(Calendar.YEAR);
+        /**
+         * if fromDate is to be selected bydefault we will set it to calender
+         * */
+        if (fromDate!=null){
+           calendar.setTime(fromDate);
+        }
+
+            month = calendar.get(Calendar.MONTH) + 1;
+            year = calendar.get(Calendar.YEAR);
 
         yearAdapter = new YearAdapter(years, String.valueOf(year),this);
         yearList.setAdapter(yearAdapter);
@@ -162,7 +189,16 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
             }else {
                 calenderAdapter = new CalenderAdapter(this);
                 calenderAdapter.setColor(color);
-                calenderAdapter.setCalenders(Date_Utils.getDaysBetweenDates(fromDate, toDate),null,null);
+                if (fromDate!=null && toDate!=null) {
+                    MyCalender fromDateCal = new MyCalender(fromDate.getDay(), fromDate.getMonth(), fromDate.getYear(), "");
+                    MyCalender toDateCal = new MyCalender(toDate.getDay(),toDate.getMonth(),toDate.getYear(),"");
+                    calenderAdapter.setCalenders(Date_Utils.getDaysBetweenDates(fromDate, toDate),fromDateCal,toDateCal);
+                }else if(fromDate!=null && toDate == null){
+                    MyCalender fromDateCal = new MyCalender(fromDate.getDay(), fromDate.getMonth(), fromDate.getYear(), "");
+                    calenderAdapter.setCalenders(Date_Utils.getDaysBetweenDates(fromDate, toDate),fromDateCal,null);
+                }else{
+                    calenderAdapter.setCalenders(Date_Utils.getDaysBetweenDates(fromDate, toDate),null,null);
+                }
                 dateList.setAdapter(calenderAdapter);
             }
         }catch (Exception e){
@@ -275,4 +311,6 @@ public class CalenderDialog extends Dialog implements CalenderDayClicked, View.O
         monthYear.setText(new DateFormatSymbols().getMonths()[month-1]+" "+year);
         generateCalender();
     }
+
+
 }

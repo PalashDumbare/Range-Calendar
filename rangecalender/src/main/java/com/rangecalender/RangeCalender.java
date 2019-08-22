@@ -15,8 +15,7 @@ public class RangeCalender {
     private OnDateSelected onDateSelected;
     private int color = R.color.design_default_color_primary;
     private boolean setSameDateAsFromDateIfToDateNotSelected = false;
-
-
+    private Date fromDate,toDate;
     public RangeCalender(Context context,int color,OnDateSelected onDateSelected) {
         this.color = color;
         this.context = context;
@@ -30,15 +29,31 @@ public class RangeCalender {
         this.setSameDateAsFromDateIfToDateNotSelected = b;
     }
 
-    public void show(){
+    public void setDefaultDateSelection(Date fromDate,Date toDate){
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+    }
 
-        CalenderDialog calenderDialog = new CalenderDialog(context,color, setSameDateAsFromDateIfToDateNotSelected,new OnDateSelected() {
-            @Override
-            public void dateSelectedIs(Date fromDate, Date toDate) {
-                onDateSelected.dateSelectedIs(fromDate,toDate);
-            }
-        });
-        calenderDialog.show();
+
+
+    public void show(){
+        CalenderDialog calenderDialog;
+        if (fromDate!=null){
+            calenderDialog = new CalenderDialog(context, color, fromDate, toDate, setSameDateAsFromDateIfToDateNotSelected, new OnDateSelected() {
+                @Override
+                public void dateSelectedIs(Date fromDate, Date toDate) {
+                    onDateSelected.dateSelectedIs(fromDate, toDate);
+                }
+            });
+        }else {
+            calenderDialog = new CalenderDialog(context, color, setSameDateAsFromDateIfToDateNotSelected, new OnDateSelected() {
+                @Override
+                public void dateSelectedIs(Date fromDate, Date toDate) {
+                    onDateSelected.dateSelectedIs(fromDate, toDate);
+                }
+            });
+        }
+         calenderDialog.show();
     }
 
 }

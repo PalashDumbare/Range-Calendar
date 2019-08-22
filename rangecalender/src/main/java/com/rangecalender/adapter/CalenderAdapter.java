@@ -93,8 +93,6 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-
-
         if (calenders.get(position) == null){
             holder.rootLayout.setVisibility(View.GONE);
         } else{
